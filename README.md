@@ -28,7 +28,7 @@ From your shell or command line:
 5. In the drawer, click Add.
 6. Click "Add an application my organization is developing".
 7. Enter a friendly name for the application, for example "SinglePageApp-DotNet", select "Web Application and/or Web API", and click next.
-8. For the sign-on URL, enter the base URL for the sample, which is by default `https://localhost:44320/`.
+8. For the sign-on URL, enter the base URL for the sample, which is by default `https://localhost:44326/`.
 9. For the App ID URI, enter `https://<your_tenant_name>/SinglePageApp-DotNet`, replacing `<your_tenant_name>` with the name of your Azure AD tenant.
 
 All done!  Before moving on to the next step, you need to find the Client ID of your application.
