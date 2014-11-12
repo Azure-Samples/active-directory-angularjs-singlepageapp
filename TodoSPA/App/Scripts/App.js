@@ -16,8 +16,8 @@ angular.module('todoApp', ['ngRoute','AdalAngular'])
 
     adalProvider.init(
         {
-            tenant: 'Enter your tenant name here e.g. contoso.onmicrosoft.com',
-            clientId: 'Enter your client ID here e.g. e9a5a8b6-8af7-4719-9821-0deef255f68e',
+            tenant: 'dotnet-rocks.com',
+            clientId: '275aad91-14ba-4b53-b8b0-17706dc13887',
             extraQueryParameter: 'nux=1'
         },
         $httpProvider

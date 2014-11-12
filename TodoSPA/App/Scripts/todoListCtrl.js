@@ -1,71 +1,68 @@
 ﻿'use strict';
-app.controller('TodoListController', ['$scope', '$location', 'TodoListService', function ($scope, $location, TodoListService) {
+angular.module('todoApp')
+.controller('todoListCtrl', ['$scope', '$location', 'todoListSvc', 'adalAuthenticationService', function ($scope, $location, todoListSvc, adalService) {
     $scope.error = "";
-    $scope.loadingMsg = "Loading...";
-    $scope.TodoList = null;
-    $scope.EditingInProgress = false;
+    $scope.loadingMessage = "Loading...";
+    $scope.todoList = null;
+    $scope.editingInProgress = false;
+    $scope.newTodoCaption = "";
 
-    $scope.NewTodo = {
-        Owner: "default",
-        Description: ""
-    };
 
-    $scope.EditInProgressTodo = {
+    $scope.editInProgressTodo = {
         Description: "",
         ID: 0
     };
 
-    $scope.InitNewTodo = function () {
-        $scope.NewTodo = {
-            Owner: "default",
-            Description: ""
-        };
-    };
+    
 
-    $scope.EditSwitch = function (todo) {
+    $scope.editSwitch = function (todo) {
         todo.edit = !todo.edit;
         if (todo.edit) {
-            $scope.EditInProgressTodo.Description = todo.Description;
-            $scope.EditInProgressTodo.ID = todo.ID;
-            $scope.EditingInProgress = true;
+            $scope.editInProgressTodo.Description = todo.Description;
+            $scope.editInProgressTodo.ID = todo.ID;
+            $scope.editingInProgress = true;
         } else {
-            $scope.EditingInProgress = false;
+            $scope.editingInProgress = false;
         }
     };
 
-    $scope.Populate = function () {
-        TodoListService.getItems().success(function (results) {            
-            $scope.TodoList = results;
-            $scope.loadingMsg = "";
+    $scope.populate = function () {
+        todoListSvc.getItems().success(function (results) {
+            $scope.todoList = results;
+            $scope.loadingMessage = "";
         }).error(function (err) {
             $scope.error = err;
-            $scope.loadingMsg = "";
+            $scope.loadingMessage = "";
         })
     };
-    $scope.Delete = function (id) {
-        TodoListService.deleteItem(id).success(function (results) {
-            $scope.loadingMsg = "";
-            $scope.Populate();
+    $scope.delete = function (id) {
+        todoListSvc.deleteItem(id).success(function (results) {
+            $scope.loadingMessage = "";
+            $scope.populate();
         }).error(function (err) {
             $scope.error = err;
-            $scope.loadingMsg = "";
+            $scope.loadingMessage = "";
         })
     };
-    $scope.Update = function (todo) {
-        TodoListService.putItem($scope.EditInProgressTodo).success(function (results) {
+    $scope.update = function (todo) {
+        todoListSvc.putItem($scope.editInProgressTodo).success(function (results) {
             $scope.loadingMsg = "";
-            $scope.Populate();
-            $scope.EditSwitch(todo);
+            $scope.populate();
+            $scope.editSwitch(todo);
         }).error(function (err) {
             $scope.error = err;
-            $scope.loadingMsg = "";
+            $scope.loadingMessage = "";
         })
     };
-    $scope.Add = function () {        
-        TodoListService.postItem($scope.NewTodo).success(function (results) {
+    $scope.add = function () {
+
+        todoListSvc.postItem({
+            'Description': $scope.newTodoCaption,
+            'Owner': adalService.userInfo.userName
+        }).success(function (results) {
             $scope.loadingMsg = "";
-            $scope.InitNewTodo();
-            $scope.Populate();
+            $scope.newTodoCaption = "";
+            $scope.populate();
         }).error(function (err) {
             $scope.error = err;
             $scope.loadingMsg = "";

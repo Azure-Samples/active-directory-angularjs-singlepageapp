@@ -1,3 +1,5 @@
-﻿app.controller('IndexController', ['$scope', 'adalAuthenticationService', function ($scope, adalAuthenticationService) {
+﻿'use strict';
+angular.module('todoApp')
+.controller('indexCtrl', ['$scope', 'adalAuthenticationService', function ($scope, adalService) {
 
 }]);

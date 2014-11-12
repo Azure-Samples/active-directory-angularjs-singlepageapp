@@ -5,16 +5,16 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 </head>
-<body ng-app="TodoSPA" ng-controller="HomeController" role="document">
+<body ng-app="todoApp" ng-controller="homeCtrl" role="document">
 
-    
+
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed"
-                         data-toggle="collapse" 
+                        data-toggle="collapse"
                         data-target=".navbar-collapse">
-                    
+
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -25,7 +25,7 @@
                 <ul class="nav navbar-nav">
                     <li ng-class="{ active: isActive('/Home') }"><a href="#/Home">Home</a></li>
                     <li ng-class="{ active: isActive('/TodoList') }"><a href="#/TodoList">Todo List</a></li>
-                    <li ng-class="{ active: isActive('/UserData') }"><a href="#/UserData" ng-show="userInfo.isAuthenticated">User</a></li>                    
+                    <li ng-class="{ active: isActive('/UserData') }"><a href="#/UserData" ng-show="userInfo.isAuthenticated">User</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><button class="btn btn-link" ng-show="userInfo.isAuthenticated" ng-click="Logout()">Logout</button></li>
@@ -34,16 +34,16 @@
             </div>
         </div>
     </div>
-    
+
 
     <br />
     <div class="container" role="main">
-         <div class="row">
+        <div class="row">
             <div class="col-xs-10 col-xs-offset-1" style="background-color:azure">
                 <div class="page-header">
                     <h1>Todo List</h1>
                 </div>
-                <p>This sample demonstrates how to take advantage of ADAL JS for adding Azure AD authentication to your AngularJS apps.</p>               
+                <p>This sample demonstrates how to take advantage of ADAL JS for adding Azure AD authentication to your AngularJS apps.</p>
             </div>
         </div>
         <div class="row">
@@ -58,10 +58,10 @@
         <script src="https://code.angularjs.org/1.2.25/angular-route.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
         <script src="App/Scripts/adal.js"></script>
-        <script src="App/Scripts/App.js"></script>
-        <script src="App/Scripts/HomeController.js"></script>
-        <script src="App/Scripts/UserDataController.js"></script>
-        <script src="App/Scripts/TodoListController.js"></script>
-        <script src="App/Scripts/TodoListService.js"></script>
+        <script src="App/Scripts/app.js"></script>
+        <script src="App/Scripts/homeCtrl.js"></script>
+        <script src="App/Scripts/userDataCtrl.js"></script>
+        <script src="App/Scripts/todoListCtrl.js"></script>
+        <script src="App/Scripts/todoListSvc.js"></script>
 </body>
 </html>

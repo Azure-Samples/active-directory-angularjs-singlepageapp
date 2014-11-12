@@ -1,4 +1,6 @@
-﻿app.controller('UserDataController', ['$scope', 'adalAuthenticationService', function ($scope, adalAuthenticationService) {
+﻿'use strict';
+angular.module('todoApp')
+.controller('userDataCtrl', ['$scope', 'adalAuthenticationService', function ($scope, adalService) {
 
 
 }]);
