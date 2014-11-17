@@ -105,12 +105,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\Scripts\adal.js" />
-    <Content Include="App\Scripts\App.js" />
-    <Content Include="App\Scripts\HomeController.js" />
-    <Content Include="App\Scripts\IndexController.js" />
-    <Content Include="App\Scripts\TodoListController.js" />
-    <Content Include="App\Scripts\TodoListService.js" />
-    <Content Include="App\Scripts\UserDataController.js" />
+    <Content Include="App\Scripts\app.js" />
+    <Content Include="App\Scripts\homeCtrl.js" />
+    <Content Include="App\Scripts\indexCtrl.js" />
+    <Content Include="App\Scripts\todoListCtrl.js" />
+    <Content Include="App\Scripts\todoListSvc.js" />
+    <Content Include="App\Scripts\userDataCtrl.js" />
     <Content Include="App\Views\Home.html" />
     <Content Include="App\Views\TodoList.html" />
     <Content Include="App\Views\UserData.html" />
