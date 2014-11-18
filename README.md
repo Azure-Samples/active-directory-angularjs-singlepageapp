@@ -1,5 +1,6 @@
 SinglePageApp-DotNet
 ====================
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/AzureADSamples/SinglePageApp-DotNet?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 This sample demonstrates the use of ADAL for JavaScript for securing an AngularJS based single page app, implemented with an ASP.NET Web API backend.
 
