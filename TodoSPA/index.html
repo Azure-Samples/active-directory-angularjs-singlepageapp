@@ -28,8 +28,8 @@
                     <li ng-class="{ active: isActive('/UserData') }"><a href="#/UserData" ng-show="userInfo.isAuthenticated">User</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><button class="btn btn-link" ng-show="userInfo.isAuthenticated" ng-click="Logout()">Logout</button></li>
-                    <li><button class="btn btn-link" ng-hide=" userInfo.isAuthenticated" ng-click="Login()">Login</button></li>
+                    <li><button class="btn btn-link" ng-show="userInfo.isAuthenticated" ng-click="logout()">Logout</button></li>
+                    <li><button class="btn btn-link" ng-hide=" userInfo.isAuthenticated" ng-click="login()">Login</button></li>
                 </ul>
             </div>
         </div>
