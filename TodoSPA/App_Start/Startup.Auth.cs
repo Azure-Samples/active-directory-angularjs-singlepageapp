@@ -14,7 +14,7 @@ namespace TodoSPA
             app.UseWindowsAzureActiveDirectoryBearerAuthentication(
                 new WindowsAzureActiveDirectoryBearerAuthenticationOptions
                 {
-                    Audience = ConfigurationManager.AppSettings["ida:Audience"],
+                    Audience = ConfigurationManager.AppSettings["ida:ClientID"],
                     Tenant = ConfigurationManager.AppSettings["ida:Tenant"]
                 });
         }
