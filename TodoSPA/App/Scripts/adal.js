@@ -1,5 +1,5 @@
 ﻿//----------------------------------------------------------------------
-// AdalJS v0.0.4
+// AdalJS v1.0.0
 // @preserve Copyright (c) Microsoft Open Technologies, Inc.
 // All Rights Reserved
 // Apache License 2.0
@@ -21,10 +21,11 @@
 // node.js usage for tests
 var AuthenticationContext;
 if (typeof module !== 'undefined' && module.exports) {
-    var window, localStorage, angular, document;
-    module.exports.inject = function (windowInj, localStorageInj, documentInj, MathInj, angularInj, conf) {
+    var window, localStorage, angular, document, sessionStorage;
+    module.exports.inject = function (windowInj, storageInj, documentInj, MathInj, angularInj, conf) {
         window = windowInj;
-        localStorage = localStorageInj;
+        localStorage = storageInj;
+        sessionStorage = storageInj;
         document = documentInj;
         Math = MathInj; // jshint ignore:line
         angular = angularInj;
@@ -242,7 +243,7 @@ AuthenticationContext.prototype._renewToken = function (resource, callback) {
 
     var frameHandle = this._addAdalFrame('adalRenewFrame');
     var expectedState = this._guid() + '|' + resource;
-
+    this._idTokenNonce = this._guid();
     this.config.state = expectedState;
     // renew happens in iframe, so it keeps javascript context
     this._renewStates.push(expectedState);
@@ -296,11 +297,13 @@ AuthenticationContext.prototype._loadFrame = function (urlNavigate, frameName) {
     // This trick overcomes iframe navigation in IE
     // IE does not load the page consistently in iframe
     var self = this;
+    self._logstatus('LoadFrame: ' + frameName);
+    var frameCheck = frameName;
     setTimeout(function () {
-        var frameHandle = self._addAdalFrame(frameName);
+        var frameHandle = self._addAdalFrame(frameCheck);
         if (frameHandle.src === '' || frameHandle.src === 'about:blank') {
             frameHandle.src = urlNavigate;
-            self._loadFrame(urlNavigate);
+            self._loadFrame(urlNavigate, frameCheck);
         }
     }, 500);
 };
@@ -735,6 +738,7 @@ AuthenticationContext.prototype.handleWindowCallback = function () {
         }
 
         window.location.hash = '';
+        window.location = this._getItem(this.CONSTANTS.STORAGE.LOGIN_REQUEST);
         if (requestInfo.requestType === this.REQUEST_TYPE.RENEW_TOKEN) {
             callback(this._getItem(this.CONSTANTS.STORAGE.ERROR_DESCRIPTION), requestInfo.parameters[this.CONSTANTS.ACCESS_TOKEN]);
             return;
@@ -805,8 +809,9 @@ AuthenticationContext.prototype._extractUserName = function (encodedIdToken) {
 
 AuthenticationContext.prototype._base64DecodeStringUrlSafe = function (base64IdToken) {
     // html5 should support atob function for decoding
+    base64IdToken = base64IdToken.replace(/-/g, '+').replace(/_/g, '/');
     if (window.atob) {
-        return window.atob(base64IdToken);
+        return decodeURIComponent(escape(window.atob(base64IdToken))); // jshint ignore:line
     }
 
     // TODO add support for this
@@ -934,6 +939,10 @@ AuthenticationContext.prototype._now = function () {
 
 
 AuthenticationContext.prototype._addAdalFrame = function (iframeId) {
+    if (typeof iframeId === 'undefined') {
+        return;
+    }
+
     this._logstatus('Add adal frame to document:' + iframeId);
     var adalFrame = document.getElementById(iframeId);
 
@@ -966,28 +975,61 @@ AuthenticationContext.prototype._logstatus = function (msg) {
 };
 
 AuthenticationContext.prototype._saveItem = function (key, obj) {
-    if (!this._supportsLocalStorage()) {
-        this._logStatus('Local storage is not supported');
+
+    if (this.config && this.config.cacheLocation && this.config.cacheLocation === 'localStorage') {
+
+        if (!this._supportsLocalStorage()) {
+            this._logStatus('Local storage is not supported');
+            return false;
+        }
+
+        localStorage.setItem(key, obj);
+
+        return true;
+    }
+
+    // Default as session storage
+    if (!this._supportsSessionStorage()) {
+        this._logstatus('Session storage is not supported');
         return false;
     }
 
-    localStorage.setItem(key, obj);
-
+    sessionStorage.setItem(key, obj);
     return true;
 };
 
 AuthenticationContext.prototype._getItem = function (key) {
-    if (!this._supportsLocalStorage()) {
-        this._logstatus('Local storage is not supported');
+
+    if (this.config && this.config.cacheLocation && this.config.cacheLocation === 'localStorage') {
+
+        if (!this._supportsLocalStorage()) {
+            this._logstatus('Local storage is not supported');
+            return null;
+        }
+
+        return localStorage.getItem(key);
+    }
+
+    // Default as session storage
+    if (!this._supportsSessionStorage()) {
+        this._logstatus('Session storage is not supported');
         return null;
     }
 
-    return localStorage.getItem(key);
+    return sessionStorage.getItem(key);
 };
 
 AuthenticationContext.prototype._supportsLocalStorage = function () {
     try {
         return 'localStorage' in window && window['localStorage'];
+    } catch (e) {
+        return false;
+    }
+};
+
+AuthenticationContext.prototype._supportsSessionStorage = function () {
+    try {
+        return 'sessionStorage' in window && window['sessionStorage'];
     } catch (e) {
         return false;
     }
@@ -1008,7 +1050,7 @@ AuthenticationContext.prototype._cloneConfig = function (obj) {
 };
 
 AuthenticationContext.prototype._libVersion = function () {
-    return '0.0.4';
+    return '1.0.0';
 };
 
 AuthenticationContext.prototype._addClientId = function() {

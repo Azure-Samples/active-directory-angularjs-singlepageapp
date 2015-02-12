@@ -1,5 +1,5 @@
 ﻿//----------------------------------------------------------------------
-// AdalJS v0.0.4
+// AdalJS v1.0.0
 // @preserve Copyright (c) Microsoft Open Technologies, Inc.
 // All Rights Reserved
 // Apache License 2.0
@@ -133,6 +133,7 @@ if (typeof module !== 'undefined' && module.exports) {
                         updateDataFromCache(_adal.config.loginResource);
                         if (!_adal._renewActive && !_oauthData.isAuthenticated && _oauthData.userName) {
                             if (!_adal._getItem(_adal.CONSTANTS.STORAGE.FAILED_RENEW)) {
+                                // Idtoken is expired or not present
                                 _adal.acquireToken(_adal.config.loginResource, function (error, tokenOut) {
                                     if (error) {
                                         $rootScope.$broadcast('adal:loginFailure', 'auto renew failure');
@@ -153,14 +154,14 @@ if (typeof module !== 'undefined' && module.exports) {
                 };
 
                 var routeChangeHandler = function (e, nextRoute) {
-                    if (nextRoute.$$route && nextRoute.$$route.requireADLogin) {
-                        if (!_oauthData.isAuthenticated) {
-                            console.log('Route change event for:' + nextRoute.$$route.originalPath);
+                    if (nextRoute && nextRoute.$$route && nextRoute.$$route.requireADLogin) {
+                        if (!_oauthData.isAuthenticated && !_adal._renewActive) {
+                            console.log('Route change event for:' + $location.$$path);
                             if (_adal.config && _adal.config.localLoginUrl) {
                                 $location.path(_adal.config.localLoginUrl);
                             } else {
                                 // directly start login flow
-                                _adal._saveItem(_adal.CONSTANTS.STORAGE.START_PAGE, nextRoute.$$route.originalPath);
+                                _adal._saveItem(_adal.CONSTANTS.STORAGE.START_PAGE, $location.$$path);
                                 console.log('Start login at:' + window.location.href);
                                 $rootScope.$broadcast('adal:loginRedirect');
                                 _adal.login();
@@ -168,9 +169,27 @@ if (typeof module !== 'undefined' && module.exports) {
                         }
                     }
                 };
+                
+                var stateChangeHandler = function (e, nextRoute) {
+                  if (nextRoute && nextRoute.requireADLogin) {
+                      if (!_oauthData.isAuthenticated && !_adal._renewActive) {
+                      console.log('Route change event for:' + nextRoute.url);
+                      if (_adal.config && _adal.config.localLoginUrl) {
+                        $location.path(_adal.config.localLoginUrl);
+                      } else {
+                        _adal._saveItem(_adal.CONSTANTS.STORAGE.START_PAGE, nextRoute.url);
+                        console.log('Start login at:' + window.location.href);
+                        $rootScope.$broadcast('adal:loginRedirect');
+                        _adal.login();
+                      }
+                    }
+                  }
+                };
 
                 // Route change event tracking to receive fragment and also auto renew tokens
                 $rootScope.$on('$routeChangeStart', routeChangeHandler);
+                
+                $rootScope.$on('$stateChangeStart', stateChangeHandler);
 
                 $rootScope.$on('$locationChangeStart', locationChangeHandler);
 
@@ -248,15 +267,25 @@ if (typeof module !== 'undefined' && module.exports) {
 
                         var resource = authService.getResourceForEndpoint(config.url);
                         var tokenStored = authService.getCachedToken(resource);
+                        var isEndpoint = false;
                         if (tokenStored) {
                             // check endpoint mapping if provided
                             config.headers.Authorization = 'Bearer ' + tokenStored;
                             return config;
                         } else {
+
+                            if (authService.config) {
+                                for (var endpointUrl in authService.config.endpoints) {
+                                    if (config.url.indexOf(endpointUrl) > -1) {
+                                        isEndpoint = true;
+                                    }
+                                }
+                            }
+
                             // Cancel request if login is starting
                             if (authService.loginInProgress()) {
                                 return $q.reject();
-                            } else if (authService.config && resource !== authService.config.clientId) {
+                            } else if (authService.config && isEndpoint) {
                                 // external endpoints
                                 // delayed request to return after iframe completes
                                 var delayedRequest = $q.defer();
