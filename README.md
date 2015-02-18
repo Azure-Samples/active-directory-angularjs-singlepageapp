@@ -39,10 +39,9 @@ All done!  Before moving on to the next step, you need to find the Client ID of 
 2. Find the Client ID value and copy it to the clipboard.
 
 
-### Step 3:  Enable the OAuth2 implicit grant preview feature for your application
+### Step 3:  Enable the OAuth2 implicit grant for your application
 
 By default, applications provisioned in Azure AD are not enabled to use the OAuth2 implicit grant. In order to run this sample, you need to explicitly opt in.
-In the current developer preview the process unfolds as in the following.
 
 1. From the former steps, your browser should still be on the Azure management portal - and specifically, displaying the Configure tab of your application's entry.
 2. Using the Manage Manifest button in the drawer, download the manifest file for the application and save it to disk.
