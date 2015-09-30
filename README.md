@@ -1,7 +1,7 @@
 ---
 services: active-directory
 platforms: angularjs
-author: dastrock
+author: dstrockis
 ---
 
 # Integrating Azure AD into an AngularJS single page app
