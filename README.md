@@ -1,6 +1,6 @@
 ---
 services: active-directory
-platforms: angularjs
+platforms: javascript
 author: dstrockis
 ---
 
