@@ -16,7 +16,7 @@ namespace TodoSPA
                 {
                     Audience = ConfigurationManager.AppSettings["ida:Audience"],
                     Tenant = ConfigurationManager.AppSettings["ida:Tenant"],
-					AuthenticationType = "SPA"
+                    AuthenticationType = "SPA"
                 });
         }
 
