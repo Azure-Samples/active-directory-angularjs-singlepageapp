@@ -55,10 +55,10 @@ By default, applications provisioned in Azure AD are not enabled to use the OAut
 1. Open the solution in Visual Studio 2013.
 2. Open the `web.config` file.
 3. Find the app key `ida:Tenant` and replace the value with your AAD tenant name.
-4. Find the app key `ida:Audience` and replace the value with the Client ID from the Azure portal.
+4. Find the app key `ida:Audience` and replace the value with the Application ID from the Azure portal.
 5. Open the file `App/Scripts/App.js` and locate the line `adalAuthenticationServiceProvider.init(`.
 6. Replace the value of `tenant` with your AAD tenant name.
-7. Replace the value of `clientId` with the Client ID from the Azure portal.
+7. Replace the value of `clientId` with the Application ID from the Azure portal.
 
 ### Step 5:  Run the sample
 
