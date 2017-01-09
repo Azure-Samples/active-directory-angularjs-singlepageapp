@@ -23,7 +23,7 @@ Getting started is simple!  To run this sample you will need:
 ### Step 1:  Clone or download this repository
 
 From your shell or command line:
-`git clone https://github.com/Azure-Samples/SinglePageApp-DotNet.git`
+`git clone https://github.com/Azure-Samples/active-directory-angularjs-singlepageapp.git`
 
 ### Step 2:  Register the sample with your Azure Active Directory tenant
 
