@@ -31,6 +31,11 @@ angular.module('todoApp')
             $scope.todoList = results;
             $scope.loadingMessage = "";
         }).error(function (err) {
+            if (err.access_token)
+            {
+                // Re-request the token with additional claims
+                adalService.acquireTokenRedirect('/api/TodoList', null, JSON.stringify(err));
+            }
             $scope.error = err;
             $scope.loadingMessage = "";
         })
