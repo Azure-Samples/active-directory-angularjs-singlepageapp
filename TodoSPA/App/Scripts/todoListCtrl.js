@@ -33,7 +33,7 @@ angular.module('todoApp')
         }).error(function (err) {
             if (err.access_token)
             {
-                // Re-request the token with additional claims
+                // Re-request the token with additional claims (supposing here the service only returns the claims parameter)
                 adalService.acquireTokenRedirect('/api/TodoList', null, JSON.stringify(err));
             }
             $scope.error = err;
