@@ -138,7 +138,7 @@ so that they are consistent with the Applications parameters
                                              -PublicClient $spaIsPublicClient `
 	                                         -IdentifierUris $spaAppIdURI `
 											 -Oauth2AllowImplicitFlow $true
-	$spaClientServicePrincipal = New-AzureADServicePrincipal -AppId $spaClientAadApplication.AppId
+	$spaClientServicePrincipal = New-AzureADServicePrincipal -AppId $spaClientAadApplication.AppId -Tags {WindowsAzureActiveDirectoryIntegratedApp}
 	Write-Host "Created."
 
     # Update the config files in the application
