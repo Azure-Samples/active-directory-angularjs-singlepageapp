@@ -35,7 +35,7 @@ From your shell or command line:
 6. While still in the Azure portal, choose your application, click on **Settings** and choose **Properties**.
 7. Find the Application ID value and copy it to the clipboard.
 8. For the App ID URI, enter `https://<your_tenant_name>/SinglePageApp-DotNet`, replacing `<your_tenant_name>` with the name of your Azure AD tenant. 
-9. Grant permissions across your tenant for your application. Go to Settings -> Properties -> Required Permissions, and click on the **Grant Permissions** button in the top bar. Click **Yes** to confirm.
+9. Grant permissions across your tenant for your application. Go to Settings -> Required Permissions, and click on the **Grant Permissions** button in the top bar. Click **Yes** to confirm.
 
 ### Step 3:  Enable the OAuth2 implicit grant for your application
 
