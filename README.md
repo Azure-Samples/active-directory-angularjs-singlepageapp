@@ -6,7 +6,7 @@ author: jmprieur
 
 # Integrating Azure AD into an AngularJS single page app
 
-> There's a newer version of this sample! Check it out: https://github.com/azure-samples/ms-identity-javascript-graphapi-web
+> There's a newer version of this sample! Check it out: https://github.com/azure-samples/ms-identity-javascript-graphapi
 >
 > This newer sample takes advantage of the Microsoft identity platform (formerly Azure AD v2.0).
 >
