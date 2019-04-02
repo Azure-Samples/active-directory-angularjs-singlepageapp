@@ -6,6 +6,12 @@ author: jmprieur
 
 # Integrating Azure AD into an AngularJS single page app
 
+> There's a newer version of this sample! Check it out: https://github.com/azure-samples/ms-identity-javascript-graphapi-web
+>
+> This newer sample takes advantage of the Microsoft identity platform (formerly Azure AD v2.0).
+>
+> While still in public preview, every component is supported in production environments
+
 This sample demonstrates the use of ADAL for JavaScript for securing an AngularJS based single page app, implemented with an ASP.NET Web API backend.
 
 ADAL for Javascript is an open source library.  For distribution options, source code, and contributions, check out the ADAL JS repo at https://github.com/AzureAD/azure-activedirectory-library-for-js.
