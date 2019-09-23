@@ -89,6 +89,6 @@ The key files containing authentication logic are the following:
 
 **index.html** - contains a reference to adal.js
 
-**HomeController.js**- shows how to take advantage of the login() and logOut() methods in ADAL.
+**HomeController.js**- shows how to take advantage of the `login()` and `logOut()` methods in ADAL.
 
 **UserDataController.js** - shows how to extract user information from the cached id_token.
